@@ -5,8 +5,8 @@
   * [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
   * [Install AWS CLI Session Manager Plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
 * Ensure Your IAM Permissions
-  * `ssm:StartSession` - (IAM Policy Examples)[https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
-  * `ssm:SendCommand` - (IAM Policy Examples)[https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html]
+  * `ssm:StartSession` - [IAM Policy Examples](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
+  * `ssm:SendCommand` - [IAM Policy Examples](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
 * Target Instance Setup
   * [Ensure SSM Permissions](https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html) fo Target Instance Profile
   * Ensure SSM Agent is installed (preinstalled on all AWS Linux AMIs already)
