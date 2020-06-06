@@ -12,7 +12,7 @@ https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-wor
   * Ensure it is executable (`chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh`)
 
 ##### Setup SSH Config
-* Add ssh config entry for aws ec2 instances to your `~/.ssh/config`, adjust key file path if needed
+* Add ssh config entry for aws ec2 instances to your `~/.ssh/config`. Adjust key file path if needed.
   ```ssh-config
   host i-* mi-*
     IdentityFile ~/.ssh/id_rsa
