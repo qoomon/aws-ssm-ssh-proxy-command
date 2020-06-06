@@ -1,13 +1,11 @@
 # aws-ssm-ec2-proxy-command
 
 #### Prerequisits
-* AWS CLI
-https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
-* AWS CLI Session Manager Plugin
-https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
+* [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+* [AWS CLI Session Manager Plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
 
 #### Install SSH Proxy Command
-  * Move proxy command script[aws-ssm-ec2-proxy-command.sh](aws-ssm-ec2-proxy-command.sh) to `~/.ssh/aws-ssm-ec2-proxy-command.sh`
+  * Move proxy command script [aws-ssm-ec2-proxy-command.sh](aws-ssm-ec2-proxy-command.sh) to `~/.ssh/aws-ssm-ec2-proxy-command.sh`
   * Ensure it is executable (`chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh`)
 
 ##### Setup SSH Config
