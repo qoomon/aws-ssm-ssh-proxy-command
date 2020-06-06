@@ -7,7 +7,7 @@
 * Ensure Your IAM Permissions
   * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
     * [IAM Policy Examples](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
-    * [IAM Policy Examples](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-sessiondocumentaccesscheck.html)
+    * [IAM Policy Examples](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-quickstart.html)
   * `ssm:SendCommand` for DocumentName: `AWS-RunShellScript` and Target Instance
     * [IAM Policy Examples](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
 * Target Instance Setup
