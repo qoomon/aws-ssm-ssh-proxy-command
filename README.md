@@ -13,12 +13,12 @@ https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-wor
 
 ##### Setup SSH Config
 * Add ssh config entry for aws ec2 instances to your `~/.ssh/config`, adjust key file path if needed
- ```ssh-config
- host i-* mi-*
-   IdentityFile ~/.ssh/id_rsa
-   ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub
-   StrictHostKeyChecking no
- ```
+  ```ssh-config
+  host i-* mi-*
+    IdentityFile ~/.ssh/id_rsa
+    ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub
+    StrictHostKeyChecking no
+  ```
 
 #### Ensure SSM Agent on Target Instance
 SSM Agent is preinstalled on all AWS Linux AMIs already.
