@@ -21,7 +21,7 @@ https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-wor
 
 #### Ensure SSM Agent on Target Instance
 SSM Agent is preinstalled on all AWS Linux AMIs already.<br>
-I you make use of other AMIs install SSM agent manually
+I you make use of other AMIs install SSM agent manually:
 * [Linux](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html)
   * `yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm & service amazon-ssm-agent restart`
 * [Windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-win.html)
