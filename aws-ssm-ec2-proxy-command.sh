@@ -8,28 +8,24 @@
 #
 # Install Proxy Command
 #   - Move this script to ~/.ssh/aws-ssm-ec2-proxy-command.sh
-#   - Make it executable (chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh)
+#   - Ensure it is executable (chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh)
 #
-# Setup SSH Config
-#
+# Add following SSH Config Entry to ~/.ssh/config
 #   host i-* mi-*
 #     IdentityFile ~/.ssh/id_rsa
 #     ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub
 #     StrictHostKeyChecking no
 #
 # Ensure SSM Permissions fo Target Instance Profile
-#
 #   https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html
 #
 # Open SSH Connection
-#   - Ensure AWS CLI environemnt variables are set properly
-#   
 #   ssh <INSTACEC_USER>@<INSTANCE_ID>
-#
+#   
+#   Ensure AWS CLI environemnt variables are set properly
 #   e.g. AWS_PROFILE='default' ssh ec2-user@i-xxxxxxxxxxxxxxxx
 #
-#   - If default region does not match instance region you need to provide it like this
-#   
+#   If default region does not match instance region you need to provide it like this
 #   ssh <INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>
 #
 ################################################################################
