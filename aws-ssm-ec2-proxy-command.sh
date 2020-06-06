@@ -45,16 +45,17 @@ then
 fi
 
 echo "Add public key ${ssh_public_key_path} to instance ${ec2_instance_id} for 60 seconds" >/dev/tty
+ssh_public_key="$(cat "${ssh_public_key_path}")"
 aws ssm send-command \
   --instance-ids "${ec2_instance_id}" \
   --document-name 'AWS-RunShellScript' \
   --comment "Add an SSH public key to authorized_keys for 60 seconds" \
   --parameters commands="\"
     cd ~${ssh_user}/.ssh || exit 1
-    public_key='$(cat "${ssh_public_key_path}") ssm-session'
-    echo \\\"\${public_key}\\\" >> authorized_keys
+    authorized_key='${ssh_public_key} ssm-session'
+    echo \\\"\${authorized_key}\\\" >> authorized_keys
     sleep 60
-    grep -v -F \\\"\${public_key}\\\" authorized_keys > .authorized_keys
+    grep -v -F \\\"\${authorized_key}\\\" authorized_keys > .authorized_keys
     mv .authorized_keys authorized_keys
   \""
 
