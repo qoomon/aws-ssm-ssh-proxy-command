@@ -2,9 +2,9 @@
 ######## Source ################################################################
 #
 # https://github.com/qoomon/aws-ssm-ec2-proxy-command
-# For full documentation see https://github.com/qoomon/aws-ssm-ec2-proxy-command/blob/master/README.md
 #
 ######## Usage #################################################################
+# https://github.com/qoomon/aws-ssm-ec2-proxy-command/blob/master/README.md
 #
 # Install Proxy Command
 #   - Move this script to ~/.ssh/aws-ssm-ec2-proxy-command.sh
