@@ -1,38 +1,27 @@
 #!/usr/bin/env sh
 ######## Source ################################################################
 #
-# https://gist.github.com/qoomon/fcf2c85194c55aee34b78ddcaa9e83a1
+# https://github.com/qoomon/aws-ssm-ec2-proxy-command
+# For full documentation see https://github.com/qoomon/aws-ssm-ec2-proxy-command/blob/master/README.md
 #
 ######## Usage #################################################################
 #
-# #1 Install the AWS CLI
-#   https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html
-#
-# #2 Install the Session Manager Plugin for the AWS CLI
-#   https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html
-#
-# #3 Install ProxyCommand
+# Install Proxy Command
 #   - Move this script to ~/.ssh/aws-ssm-ec2-proxy-command.sh
 #   - Make it executable (chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh)
 #
-# #4 Setup SSH Config
-#   - Add foolowing entry to your ~/.ssh/config
-#   - Adjust key file path if needed
+# Setup SSH Config
 #
 #   host i-* mi-*
 #     IdentityFile ~/.ssh/id_rsa
 #     ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub
 #     StrictHostKeyChecking no
 #
-# #5 Ensure SSM Permissions fo Target Instance Profile
+# Ensure SSM Permissions fo Target Instance Profile
 #
 #   https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html
 #
-# #6 Ensure latest SSM Agent on Target Instance
-#
-#   yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm & service amazon-ssm-agent restart
-#
-# #7 Open SSH Connection
+# Open SSH Connection
 #   - Ensure AWS CLI environemnt variables are set properly
 #   
 #   ssh <INSTACEC_USER>@<INSTANCE_ID>
