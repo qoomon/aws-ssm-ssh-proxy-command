@@ -44,9 +44,7 @@ then
   ec2_instance_id="${ec2_instance_id%%${REGION_SEPARATOR}*}"
 fi
 
-if [ -t 2 ]; then 
-  >/dev/tty echo "Add public key ${ssh_public_key_path} to instance ${ec2_instance_id} for 60 seconds"
-fi
+>/dev/stderr echo "Add public key ${ssh_public_key_path} to instance ${ec2_instance_id} for 60 seconds"
 ssh_public_key="$(cat "${ssh_public_key_path}")"
 aws ssm send-command \
   --instance-ids "${ec2_instance_id}" \
@@ -61,9 +59,7 @@ aws ssm send-command \
     mv .authorized_keys authorized_keys
   \""
 
-if [ -t 2 ]; then 
-  >/dev/tty echo "Start ssm session to instance ${ec2_instance_id}"
-fi
+>/dev/stderr echo "Start ssm session to instance ${ec2_instance_id}"
 aws ssm start-session \
   --target "${ec2_instance_id}" \
   --document-name 'AWS-StartSSHSession' \
