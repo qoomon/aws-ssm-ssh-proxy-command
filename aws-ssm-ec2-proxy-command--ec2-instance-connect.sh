@@ -16,7 +16,7 @@
 #     ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub
 #     StrictHostKeyChecking no
 #
-# Ensure SSM Permissions fo Target Instance Profile
+# Ensure SSM Permissions for Target Instance Profile
 #   https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html
 #
 # Open SSH Connection
