@@ -49,7 +49,7 @@ instance_availability_zone="$(aws ec2 describe-instances \
     --query "Reservations[0].Instances[0].Placement.AvailabilityZone" \
     --output text)"
 
-if [ -t 1 ]; then 
+if [ -t 2 ]; then 
   >/dev/tty echo "Add public key ${ssh_public_key_path} to instance ${ec2_instance_id} for 60 seconds"
 fi
 aws ec2-instance-connect send-ssh-public-key  \
@@ -58,7 +58,7 @@ aws ec2-instance-connect send-ssh-public-key  \
   --ssh-public-key "file://$ssh_public_key_path" \
   --availability-zone "$instance_availability_zone"
 
-if [ -t 1 ]; then 
+if [ -t 2 ]; then 
   >/dev/tty echo "Start ssm session to instance ${ec2_instance_id}"
 fi
 aws ssm start-session \
