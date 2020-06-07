@@ -37,6 +37,7 @@ ec2_instance_id="$1"
 ssh_user="$2"
 ssh_port="$3"
 ssh_public_key_path="$4"
+ssh_public_key="$(cat "${ssh_public_key_path}")"
 
 if [[ "${ec2_instance_id}" = *${REGION_SEPARATOR}* ]]
 then
@@ -45,7 +46,6 @@ then
 fi
 
 >/dev/stderr echo "Add public key ${ssh_public_key_path} to instance ${ec2_instance_id} for 60 seconds"
-ssh_public_key="$(cat "${ssh_public_key_path}")"
 aws ssm send-command \
   --instance-ids "${ec2_instance_id}" \
   --document-name 'AWS-RunShellScript' \
