@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 ######## Source ################################################################
 #
 # https://github.com/qoomon/aws-ssm-ec2-proxy-command
@@ -39,7 +39,7 @@ ssh_port="$3"
 ssh_public_key_path="$4"
 ssh_public_key="$(cat "${ssh_public_key_path}")"
 
-if [[ "${ec2_instance_id}" = *${REGION_SEPARATOR}* ]]
+if echo "${ec2_instance_id}" | grep -qe "${REGION_SEPARATOR}"
 then
   export AWS_DEFAULT_REGION="${ec2_instance_id##*${REGION_SEPARATOR}}"
   ec2_instance_id="${ec2_instance_id%%${REGION_SEPARATOR}*}"
