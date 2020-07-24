@@ -7,9 +7,9 @@
 * Ensure Your IAM Permissions
   * [IAM Policy Example](aws-ssm-ec2-proxy-command-iam-policy.json)
   * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
-    * [AWS DOcumentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
+    * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
   * `ssm:SendCommand` for DocumentName: `AWS-RunShellScript` and Target Instance
-    * [AWS DOcumentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
+    * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
 * Target Instance Setup
   * [Ensure SSM Permissions](https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html) fo Target Instance Profile
   * Ensure SSM Agent is installed (preinstalled on all AWS Linux AMIs already)
@@ -37,6 +37,12 @@
   * If default region does not match instance region you need to provide it like this
   * `AWS_PROFILE='default' ssh <INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>`
 
-## TODO
-Add variant to send ssh key by ec2-instance-connect:SendSSHPublicKey
-* https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-connect-set-up.html
+## Alternative Implementation with `ec2-instance-connect`
+* Ensure [Prerequisits](#prerequisits)
+* Use [aws-ssm-ec2-proxy-command--ec2-instance-connect.sh](aws-ssm-ec2-proxy-command--ec2-instance-connect.sh) proxy command script instead
+* Use this [IAM Policy Example](aws-ssm-ec2-proxy-command-iam-policy--ec2-instance-connect.json) instead
+  * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
+    * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
+  * `ec2-instance-connect:SendSSHPublicKey` for Target Instance and `ec2:DescribeInstances`
+    * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
+* Follow [Install Guide](#install-ssh-proxy-command)
