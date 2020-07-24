@@ -39,10 +39,10 @@
 
 ## Alternative Implementation with `ec2-instance-connect`
 * Ensure [Prerequisits](#prerequisits)
-* Use [aws-ssm-ec2-proxy-command--ec2-instance-connect.sh](aws-ssm-ec2-proxy-command--ec2-instance-connect.sh) proxy command script instead
-* Use this [IAM Policy Example](aws-ssm-ec2-proxy-command-iam-policy--ec2-instance-connect.json) instead
+* Use [ec2-instance-connect aws-ssm-ec2-proxy-command.sh](ec2-instance-connect/aws-ssm-ec2-proxy-command.sh) proxy command script instead
+* Use this [ec2-instance-connect IAM Policy Example](ec2-instance-connect/aws-ssm-ec2-proxy-command-iam-policy.json) instead
   * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
     * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
-  * `ec2-instance-connect:SendSSHPublicKey` for Target Instance and `ec2:DescribeInstances`
+  * `ec2-instance-connect:SendSSHPublicKey`
     * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
 * Follow [Install Guide](#install-ssh-proxy-command)
