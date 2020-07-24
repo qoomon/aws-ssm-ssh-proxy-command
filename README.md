@@ -5,7 +5,7 @@
   * [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
   * [Install AWS CLI Session Manager Plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
 * Ensure Your IAM Permissions
-  * [IAM Policy Example](aws-ssm-ec2-proxy-command-iam-policy.json)
+  * [IAM Policy Example](aws-ssm-ec2-iam-policy.json)
   * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
     * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
   * `ssm:SendCommand` for DocumentName: `AWS-RunShellScript` and Target Instance
@@ -40,7 +40,7 @@
 ## Alternative Implementation with `ec2-instance-connect`
 * Ensure [Prerequisits](#prerequisits)
 * Use this [aws-ssm-ec2-proxy-command.sh](ec2-instance-connect/aws-ssm-ec2-proxy-command.sh) proxy command script instead
-* Use this [IAM Policy Example](ec2-instance-connect/aws-ssm-ec2-proxy-command-iam-policy.json) instead
+* Use this [IAM Policy Example](ec2-instance-connect/aws-ssm-ec2-iam-policy.json) instead
   * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
     * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
   * `ec2-instance-connect:SendSSHPublicKey`
