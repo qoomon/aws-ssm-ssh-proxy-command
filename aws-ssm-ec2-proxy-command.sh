@@ -51,8 +51,8 @@ aws ssm send-command \
   --document-name 'AWS-RunShellScript' \
   --comment "Add an SSH public key to authorized_keys for 60 seconds" \
   --parameters commands="\"
-    mkdir -p ~/${ssh_user}/.ssh
-    cd ~/${ssh_user}/.ssh || exit 1
+    mkdir -p /home/${ssh_user}/.ssh
+    cd /home/${ssh_user}/.ssh || exit 1
     authorized_key='${ssh_public_key} ssm-session'
     echo \\\"\${authorized_key}\\\" >> authorized_keys
     sleep 60
