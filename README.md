@@ -1,4 +1,5 @@
 # aws-ssm-ec2-proxy-command
+Connect to your ec2 instances via AWS SSM and ssh without any open ssh port in you security group.
 
 #### Prerequisits
 * Local Setup
