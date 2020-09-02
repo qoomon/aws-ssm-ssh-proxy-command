@@ -22,7 +22,7 @@ Open an SSH connection to your ec2 instances via AWS SSM without the need to ope
   * Move proxy command script [aws-ssm-ec2-proxy-command.sh](aws-ssm-ec2-proxy-command.sh) to `~/.ssh/aws-ssm-ec2-proxy-command.sh`
   * Ensure it is executable (`chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh`)
 
-##### Setup SSH Config
+###### Setup SSH Config [optional]
 * Add ssh config entry for aws ec2 instances to your `~/.ssh/config`. Adjust key file path if needed.
   ```ssh-config
   host i-* mi-*
@@ -32,11 +32,12 @@ Open an SSH connection to your ec2 instances via AWS SSM without the need to ope
   ```
 
 #### Open SSH Connection
-* `ssh <INSTACEC_USER>@<INSTANCE_ID>`
-* Ensure AWS CLI environemnt variables are set properly
-  * e.g. `AWS_PROFILE='default' ssh ec2-user@i-xxxxxxxxxxxxxxxx`
-  * If default region does not match instance region you need to provide it like this
-  * `AWS_PROFILE='default' ssh <INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>`
+* Ensure AWS CLI environemnt variables are set properly e.g. `export AWS_PROFILE=default` or `AWS_PROFILE=default ssh ... <INSTACEC_USER>@<INSTANCE_ID>`
+* If default region does not match instance region you need to provide it like this `<INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>`
+###### SSH Command with SSH Config Setup
+`ssh <INSTACEC_USER>@<INSTANCE_ID>`
+###### SSH Command with ProxyCommand CLI Option
+`ssh -o ProxyCommand="aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub" <INSTACEC_USER>@<INSTANCE_ID>`
 
 ## Alternative Implementation with `ec2-instance-connect`
 * Ensure [Prerequisits](#prerequisits)
