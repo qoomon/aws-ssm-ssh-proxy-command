@@ -34,13 +34,13 @@ Open an SSH connection to your ec2 instances via AWS SSM without the need to ope
 #### Open SSH Connection
 * Ensure AWS CLI environemnt variables are set properly e.g. 
   * `export AWS_PROFILE=default` or `AWS_PROFILE=default ssh ... <INSTACEC_USER>@<INSTANCE_ID>`
-* If default region does not match instance region you need to provide it e.g.
-  * `<INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>`
+* If default region does not match instance region you need to provide it
+  * e.g. `<INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>`
 ###### SSH Command with SSH Config Setup
-`ssh <INSTACEC_USER>@<INSTANCE_ID>` e.g.
-* `ssh ec2-user@i-1234567890`
+`ssh <INSTACEC_USER>@<INSTANCE_ID>`
+* e.g. `ssh ec2-user@i-1234567890`
 ###### SSH Command with ProxyCommand CLI Option
-```
+```sh
 ssh <INSTACEC_USER>@<INSTANCE_ID> \
   -i "~/.ssh/id_rsa" \
   -o ProxyCommand="~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub"
