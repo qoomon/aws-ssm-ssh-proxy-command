@@ -40,9 +40,11 @@ Open an SSH connection to your ec2 instances via AWS SSM without the need to ope
 `ssh <INSTACEC_USER>@<INSTANCE_ID>` e.g.
 * `ssh ec2-user@i-1234567890`
 ###### SSH Command with ProxyCommand CLI Option
-`ssh <INSTACEC_USER>@<INSTANCE_ID> \
+```
+ssh <INSTACEC_USER>@<INSTANCE_ID> \
   -i "~/.ssh/id_rsa" \
-  -o ProxyCommand="~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub"`
+  -o ProxyCommand="~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub"
+```
 
 ## Alternative Implementation with `ec2-instance-connect`
 * Ensure [Prerequisits](#prerequisits)
