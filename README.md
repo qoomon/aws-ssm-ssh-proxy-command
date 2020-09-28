@@ -47,6 +47,7 @@ ssh <INSTACEC_USER>@<INSTANCE_ID> \
 ```
 
 ## Alternative Implementation with `ec2-instance-connect`
+The advantage from security perspective it that you don't need to grant "ssm:SendCommand" to users.
 * Ensure [Prerequisits](#prerequisits)
 * Use this [aws-ssm-ec2-proxy-command.sh](ec2-instance-connect/aws-ssm-ec2-proxy-command.sh) proxy command script instead
 * Use this [IAM Policy Example](ec2-instance-connect/aws-ssm-ec2-iam-policy.json) instead
