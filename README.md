@@ -56,4 +56,5 @@ Instead you only grant`ec2-instance-connect:SendSSHPublicKey` permission to a sp
     * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
   * `ec2-instance-connect:SendSSHPublicKey`
     * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
+    * You may need to adjust `ec2:osuser` to match your needs. Default osuser is `ec2-user`
 * Follow [Install Guide](#install-ssh-proxy-command)
