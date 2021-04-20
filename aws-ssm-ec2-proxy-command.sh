@@ -20,13 +20,13 @@
 #   https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html
 #
 # Open SSH Connection
-#   ssh <INSTACEC_USER>@<INSTANCE_ID>
+#   ssh <INSTANCE_USER>@<INSTANCE_ID>
 #   
-#   Ensure AWS CLI environemnt variables are set properly
+#   Ensure AWS CLI environment variables are set properly
 #   e.g. AWS_PROFILE='default' ssh ec2-user@i-xxxxxxxxxxxxxxxx
 #
 #   If default region does not match instance region you need to provide it like this
-#   ssh <INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>
+#   ssh <INSTANCE_USER>@<INSTANCE_ID>--<INSTANCE_REGION>
 #
 ################################################################################
 set -eu
