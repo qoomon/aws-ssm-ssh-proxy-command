@@ -38,6 +38,7 @@ ssh_user="$2"
 ssh_port="$3"
 ssh_public_key_path="$4"
 ssh_public_key="$(cat "${ssh_public_key_path}")"
+ssh_public_key_timeout=60
 
 if echo "${ec2_instance_id}" | grep -qe "${REGION_SEPARATOR}"
 then
@@ -49,13 +50,15 @@ fi
 aws ssm send-command \
   --instance-ids "${ec2_instance_id}" \
   --document-name 'AWS-RunShellScript' \
-  --comment "Add an SSH public key to authorized_keys for 60 seconds" \
+  --comment "Add an SSH public key to authorized_keys for ${ssh_public_key_timeout} seconds" \
   --parameters commands="\"
-    mkdir -p ~${ssh_user}/.ssh
-    cd ~${ssh_user}/.ssh || exit 1
+    mkdir -p ~${ssh_user}/.ssh && cd $_ || exit 1
+    
     authorized_key='${ssh_public_key} ssm-session'
     echo \\\"\${authorized_key}\\\" >> authorized_keys
-    sleep 60
+    
+    sleep ${ssh_public_key_timeout}
+    
     grep -v -F \\\"\${authorized_key}\\\" authorized_keys > .authorized_keys
     mv .authorized_keys authorized_keys
   \""
