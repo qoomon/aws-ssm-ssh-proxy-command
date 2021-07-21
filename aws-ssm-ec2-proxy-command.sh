@@ -46,13 +46,13 @@ then
   ec2_instance_id="${ec2_instance_id%%${REGION_SEPARATOR}*}"
 fi
 
->/dev/stderr echo "Add public key ${ssh_public_key_path} to instance ${ec2_instance_id} for 60 seconds"
+>/dev/stderr echo "Add public key ${ssh_public_key} at path ${ssh_public_key_path} to instance ${ec2_instance_id} as ${ssh_user} for ${ssh_public_key_timeout} seconds"
 aws ssm send-command \
   --instance-ids "${ec2_instance_id}" \
   --document-name 'AWS-RunShellScript' \
   --comment "Add an SSH public key to authorized_keys for ${ssh_public_key_timeout} seconds" \
   --parameters commands="\"
-    mkdir -p ~${ssh_user}/.ssh && cd \$_ || exit 1
+    mkdir -p /home/${ssh_user}/.ssh && cd /home/${ssh_user}/.ssh || exit 1
     
     authorized_key='${ssh_public_key} ssm-session'
     echo \\\"\${authorized_key}\\\" >> authorized_keys
