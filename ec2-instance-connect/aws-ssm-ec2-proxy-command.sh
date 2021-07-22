@@ -49,7 +49,7 @@ instance_availability_zone="$(aws ec2 describe-instances \
     --query "Reservations[0].Instances[0].Placement.AvailabilityZone" \
     --output text)"
 
->/dev/stderr echo "Add public key ${ssh_public_key_path} to instance ${ec2_instance_id} for 60 seconds"
+>/dev/stderr echo "Add public key ${ssh_public_key_path} for ${ssh_user} at instance ${ec2_instance_id} for 60 seconds"
 aws ec2-instance-connect send-ssh-public-key  \
   --instance-id "$ec2_instance_id" \
   --instance-os-user "$ssh_user" \
