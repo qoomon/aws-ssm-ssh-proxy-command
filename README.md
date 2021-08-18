@@ -4,7 +4,9 @@ Open an SSH connection to your ec2 instances via AWS SSM without the need to ope
 #### Prerequisits
 * Local Setup
   * [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+   * MacOS `brew install awscli`  
   * [Install AWS CLI Session Manager Plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
+   * MacOS `brew install session-manager-plugin`   
 * Ensure Your IAM Permissions
   * [IAM Policy Example](aws-ssm-ec2-iam-policy.json)
   * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
