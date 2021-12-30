@@ -35,6 +35,8 @@ Open an SSH connection to your ec2 instances via AWS SSM without the need to ope
 
 - Ensure you are allowed to execute powershell scripts (see [Set-ExecutionPolicy](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy) command)
 
+Unfortunately on Windows is not possible to show output while running ProxyCommand, script output is interpreted as SSH banner which is available with SSH verbose options.
+
 ##### Setup SSH Config [optional]
 
 * Add ssh config entry for aws ec2 instances to your `~/.ssh/config`. Adjust key file path if needed.
@@ -67,6 +69,7 @@ host i-* mi-*
 ###### SSH Command with SSH Config Setup
 
 `ssh <INSTACEC_USER>@<INSTANCE_ID>`
+
 * e.g. `ssh ec2-user@i-1234567890`
 
 ###### SSH Command with ProxyCommand CLI Option
