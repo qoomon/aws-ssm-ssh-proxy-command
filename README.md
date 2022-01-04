@@ -1,8 +1,8 @@
 # aws-ssm-ec2-proxy-command
 Open an SSH connection to your ec2 instances via AWS SSM without the need to open any ssh port in you security groups.
 
-### Windows users
-In order to use this project on Windows refer to [README.windows.md](README.windows.md)
+###### ⓘ Windows users please refere to [README.windows.md](README.windows.md)
+
 #### Prerequisits
 * Local Setup
   * [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
