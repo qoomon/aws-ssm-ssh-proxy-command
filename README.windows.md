@@ -52,9 +52,9 @@ host i-* mi-*
 
 ###### SSH Command with SSH Config Setup
 
-`ssh <INSTACEC_USER>@<INSTANCE_ID>`
+`ssh.exe <INSTACEC_USER>@<INSTANCE_ID>`
 
-* e.g. `ssh ec2-user@i-1234567890`
+* e.g. `ssh.exe ec2-user@i-1234567890`
 
 ###### SSH Command with ProxyCommand CLI Option
 
