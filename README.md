@@ -54,11 +54,12 @@ ssh <INSTACEC_USER>@<INSTANCE_ID> \
 The advantage from security perspective it that you don't need to grant `ssm:SendCommand` to users and there by the permission to execute everything as root.
 Instead you only grant `ec2-instance-connect:SendSSHPublicKey` permission to a specific instance user e.g. `ec2-user`.
 * Ensure [Prerequisits](#prerequisits)
-* Use this [aws-ssm-ec2-proxy-command.sh](ec2-instance-connect/aws-ssm-ec2-proxy-command.sh) proxy command script instead
-* Use this [IAM Policy Example](ec2-instance-connect/aws-ssm-ec2-iam-policy.json) instead
-  * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
-    * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
-  * `ec2-instance-connect:SendSSHPublicKey`
-    * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
-    * You may need to adjust `ec2:osuser` to match your needs. Default osuser is `ec2-user`
 * Follow [Install Guide](#install-ssh-proxy-command)
+  * Use this [aws-ssm-ec2-proxy-command.sh](ec2-instance-connect/aws-ssm-ec2-proxy-command.sh) proxy command script instead
+  * Use this [IAM Policy Example](ec2-instance-connect/aws-ssm-ec2-iam-policy.json) instead
+    * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
+      * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
+    * `ec2-instance-connect:SendSSHPublicKey`
+      * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
+      * You may need to adjust `ec2:osuser` to match your needs. Default osuser is `ec2-user`
+
