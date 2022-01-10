@@ -61,5 +61,5 @@ Instead you only grant `ec2-instance-connect:SendSSHPublicKey` permission to a s
       * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
     * `ec2-instance-connect:SendSSHPublicKey`
       * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
-      * You may need to adjust `ec2:osuser` to match your needs. Default `osuser` is `ec2-user`
+      * You may need to adjust `ec2:osuser` to match your needs. Default is `ec2-user`
 
