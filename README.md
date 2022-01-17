@@ -1,4 +1,5 @@
-# aws-ssm-ec2-proxy-command
+# aws-ssm-ec2-proxy-command [![Sparkline](https://stars.medv.io/qoomon/aws-ssm-ec2-proxy-command.svg)](https://stars.medv.io/qoomon/aws-ssm-ec2-proxy-command)
+
 Open an SSH connection to your ec2 instances via AWS SSM without the need to open any ssh port in you security groups.
 
 ###### ⓘ Windows users please refere to [README.windows.md](README.windows.md)
