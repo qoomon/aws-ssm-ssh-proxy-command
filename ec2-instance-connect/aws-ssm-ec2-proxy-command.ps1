@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env pwsh
 ######## Source ################################################################
 #
 # https://github.com/qoomon/aws-ssm-ec2-proxy-command
