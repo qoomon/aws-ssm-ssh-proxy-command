@@ -52,13 +52,7 @@ aws ssm send-command \
   --document-name 'AWS-RunShellScript' \
   --comment "Add an SSH public key to authorized_keys for ${ssh_public_key_timeout} seconds" \
   --parameters commands="\"
-    ssh_user_home=\$(getent passwd '${ssh_user}' | cut -d: -f6)
-    if [ -z \\\"\${ssh_user_home}\\\" ]
-    then
-      exit 1
-    fi
-
-    mkdir -p \\\"\${ssh_user_home}/.ssh\\\" && cd \\\"\${ssh_user_home}/.ssh\\\" || exit 1
+    mkdir -p ~${ssh_user}/.ssh && cd ~${ssh_user}/.ssh || exit 1
 
     authorized_key='${ssh_public_key} ssm-session'
     echo \\\"\${authorized_key}\\\" >> authorized_keys
