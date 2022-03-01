@@ -50,7 +50,7 @@ if ($splitted_instance.Length -gt 1)
 }
 
 Write-Output "Add public key $ssh_public_key_path for $ssh_user at instance $ec2_instance_id for $ssh_public_key_timeout seconds"
-$addPublicKeyScript = @"
+$addPublicKeyCommands = @"
   \"
   mkdir -p ~$ssh_user/.ssh && cd ~$ssh_user/.ssh || exit 1
 
@@ -67,7 +67,7 @@ aws ssm send-command `
   --instance-ids "$ec2_instance_id" `
   --document-name 'AWS-RunShellScript' `
   --comment "Add an SSH public key to authorized_keys for $ssh_public_key_timeout seconds" `
-  --parameters commands="$addPublicKeyScript"
+  --parameters commands="$addPublicKeyCommands"
 if($LASTEXITCODE -ne 0) { Write-Error "Failed to add public key with error $output" }
 
 Write-Output "Start ssm session to instance $ec2_instance_id"
