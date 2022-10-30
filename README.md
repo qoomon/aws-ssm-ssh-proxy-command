@@ -2,6 +2,7 @@
 
 Open an SSH connection to your ec2 instances via AWS SSM without the need to open any ssh port in you security groups.
 
+###### ⓘ Prefer [ec2-instance-connect implementation](#recommended-usage-of-ec2-instance-connectsendsshpublickey) if possible
 ###### ⓘ Windows users please refere to [README.windows.md](README.windows.md)
 
 #### Prerequisits
