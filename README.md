@@ -52,7 +52,7 @@ ssh <INSTACEC_USER>@<INSTANCE_ID> \
 ```
 
 ## Alternative Implementation with `ec2-instance-connect`
-The advantage from security perspective it that you don't need to grant `ssm:SendCommand` to users and there by the permission to execute everything as root.
+The advantage from a security perspective is that you don't need to grant `ssm:SendCommand` to users and there by the permission to execute everything as root.
 Instead you only grant `ec2-instance-connect:SendSSHPublicKey` permission to a specific instance user e.g. `ec2-user`.
 * Ensure [Prerequisits](#prerequisits)
 * Follow [Install Guide](#install-ssh-proxy-command)
