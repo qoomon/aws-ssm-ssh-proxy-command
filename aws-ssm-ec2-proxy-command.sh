@@ -40,7 +40,7 @@ ssh_public_key_path="$4"
 ssh_public_key="$(cat "${ssh_public_key_path}")"
 ssh_public_key_timeout=60
 
-if echo "${ec2_instance_id}" | grep -qe "${REGION_SEPARATOR}"
+if [[ "${ec2_instance_id}" == *"${REGION_SEPARATOR}"* ]]
 then
   export AWS_DEFAULT_REGION="${ec2_instance_id##*${REGION_SEPARATOR}}"
   ec2_instance_id="${ec2_instance_id%%${REGION_SEPARATOR}*}"
