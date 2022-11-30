@@ -38,7 +38,7 @@ ssh_user="$2"
 ssh_port="$3"
 ssh_public_key_path="$4"
 
-if echo "${ec2_instance_id}" | grep -qe "${REGION_SEPARATOR}"
+if [[ "${ec2_instance_id}" == *"${REGION_SEPARATOR}"* ]]
 then
   export AWS_DEFAULT_REGION="${ec2_instance_id##*${REGION_SEPARATOR}}"
   ec2_instance_id="${ec2_instance_id%%${REGION_SEPARATOR}*}"
