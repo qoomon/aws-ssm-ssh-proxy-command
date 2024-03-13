@@ -5,7 +5,8 @@
             "Effect": "Allow",
             "Action": [
                 "ssm:SendCommand",
-                "ssm:StartSession"
+                "ssm:StartSession",
+                "ec2:StartInstances"
             ],
             "Resource": [
                 "arn:aws:ec2:*:*:instance/*",
@@ -24,6 +25,7 @@
                 "ssm:DescribeSessions",
                 "ssm:GetConnectionStatus",
                 "ssm:DescribeInstanceProperties",
+                "ssm:DescribeInstanceInformation",
                 "ec2:DescribeInstances"
             ],
             "Resource": "*"
