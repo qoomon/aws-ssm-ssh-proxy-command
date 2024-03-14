@@ -7,7 +7,7 @@
 # https://github.com/qoomon/aws-ssm-ec2-proxy-command/blob/master/README.md
 #
 # Install Proxy Command
-#   - Move this script to ~/.ssh/aws-ssm-ec2-proxy-command-start.sh
+#   - Move this script to ~/.ssh/aws-ssm-ec2-proxy-command.sh
 #   - Ensure it is executable (chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh)
 #
 # Add following SSH Config Entry to ~/.ssh/config
