@@ -32,8 +32,8 @@
 set -eu
 
 REGION_SEPARATOR='--'
-MAX_ITERATION=5
-SLEEP_DURATION=5
+START_INSTANCE_TIMEOUT=300
+START_INSTANCE_CHECK_INTERVAL=5
 
 ec2_instance_id="$1"
 ssh_user="$2"
@@ -48,40 +48,31 @@ then
   ec2_instance_id="${ec2_instance_id%%${REGION_SEPARATOR}*}"
 fi
 
-function start_instance(){
- # Instance is offline - start the instance
-    >/dev/stderr echo "\n🚀 Starting ec2 Instance ${ec2_instance_id}"
-    aws ec2 start-instances --instance-ids $ec2_instance_id --profile ${AWS_PROFILE} --region ${AWS_REGION}
-    sleep ${SLEEP_DURATION}
-    COUNT=0
-    >/dev/stderr echo "  ⏳ Wait until ${ec2_instance_id} is running"
-    while [ ${COUNT} -le ${MAX_ITERATION} ]; do
-        STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION}`
-        if [ ${STATUS} == 'Online' ]; then
-            break
-        fi
-        # Max attempts reached, exit
-        if [ ${COUNT} -eq ${MAX_ITERATION} ]; then
-            exit 1
-        else
-            >/dev/stderr echo "     ⁃  [${COUNT}|${MAX_ITERATION}] - retry in ${SLEEP_DURATION} seconds"
-            let COUNT=COUNT+1
-            sleep ${SLEEP_DURATION}
-        fi
-    done
-}
+>/dev/stderr echo "EC2 Proxy Command..."
 
-
->/dev/stderr echo "⚙️  Ec2 Proxy Command \n"
->/dev/stderr echo "🧪 Check if instance ${ec2_instance_id} is running"
 STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION}`
-
-# If the instance is online, start the session
-if [ $STATUS == 'Online' ]; then
-  >/dev/stderr echo "   − State: 🟢 ${STATUS}"
-  ~/.ssh/aws-ssm-ec2-proxy-command.sh $ec2_instance_id $ssh_user $ssh_port $ssh_public_key_path
-else
-  >/dev/stderr echo "   − State: 🔴 Offline"
-  start_instance
-  ~/.ssh/aws-ssm-ec2-proxy-command.sh $ec2_instance_id $ssh_user $ssh_port $ssh_public_key_path
+if [ $STATUS != 'Online' ]
+then
+  aws ec2 start-instances --instance-ids "${ec2_instance_id}" --profile "${AWS_PROFILE}" --region "${AWS_REGION}"
+  >/dev/stderr echo "Waiting for EC2 Instance ${ec2_instance_id}..."
+  START_INSTANCE_START="$(date +%s)"
+  while [ $(( $(date +%s) - $START_INSTANCE_START)) -le ${START_INSTANCE_TIMEOUT} ]
+  do
+      >/dev/stderr echo -n "."
+      sleep ${START_INSTANCE_CHECK_INTERVAL}
+      STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION}`
+      if [ ${STATUS} == 'Online' ]
+      then
+          break
+      fi
+  done
+  >/dev/stderr echo
+  
+  if [ $STATUS != 'Online' ]
+  then
+      >/dev/stderr echo "Timeout."
+      exit 1
+  fi
 fi
+
+ ~/.ssh/aws-ssm-ec2-proxy-command.sh $ec2_instance_id $ssh_user $ssh_port $ssh_public_key_path
