@@ -7,10 +7,10 @@
 # https://github.com/qoomon/aws-ssm-ec2-proxy-command/blob/master/README.md
 #
 # Install Proxy Command
-#   - Check Install Steps for aws-ssm-ec2-proxy-command.sh
+#   - Install aws-ssm-ec2-proxy-command.sh first, see 'Usage' section
 #   - Move this script to ~/.ssh/aws-ssm-ec2-proxy-command-start-instance.sh
-#   - Ensure it is executable (chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh)
-# Add following SSH Config Entry to ~/.ssh/config
+#   - Ensure it is executable (chmod +x ~/.ssh/aws-ssm-ec2-proxy-command-start-instance.sh)
+# Adjust following SSH Config Entry in ~/.ssh/config
 #   host i-* mi-*
 #     IdentityFile ~/.ssh/id_rsa
 #     ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command-start-instance-start.sh %h %r %p ~/.ssh/id_rsa.pub
