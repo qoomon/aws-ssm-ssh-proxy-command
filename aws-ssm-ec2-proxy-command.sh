@@ -7,7 +7,7 @@
 # https://github.com/qoomon/aws-ssm-ec2-proxy-command/blob/master/README.md
 #
 # Install Proxy Command
-#   - Move this script to ~/.ssh/aws-ssm-ec2-proxy-command.sh
+#   - Move this script to ~/.ssh/aws-ssm-ec2-proxy-command-start.sh
 #   - Ensure it is executable (chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh)
 #
 # Add following SSH Config Entry to ~/.ssh/config
@@ -32,8 +32,7 @@
 set -eu
 
 REGION_SEPARATOR='--'
-MAX_ITERATION=5
-SLEEP_DURATION=5
+
 
 ec2_instance_id="$1"
 ssh_user="$2"
@@ -75,40 +74,4 @@ function connect() {
     --parameters "portNumber=${ssh_port}"
 }
 
-function start_instance(){
- # Instance is offline - start the instance
-    >/dev/stderr echo "\n🚀 Starting ec2 Instance ${ec2_instance_id}"
-    aws ec2 start-instances --instance-ids $ec2_instance_id --profile ${AWS_PROFILE} --region ${AWS_REGION}
-    sleep ${SLEEP_DURATION}
-    COUNT=0
-    >/dev/stderr echo "  ⏳ Wait until ${ec2_instance_id} is running"
-    while [ ${COUNT} -le ${MAX_ITERATION} ]; do
-        STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION}`
-        if [ ${STATUS} == 'Online' ]; then
-            break
-        fi
-        # Max attempts reached, exit
-        if [ ${COUNT} -eq ${MAX_ITERATION} ]; then
-            exit 1
-        else
-            >/dev/stderr echo "     ⁃  [${COUNT}|${MAX_ITERATION}] - retry in ${SLEEP_DURATION} seconds"
-            let COUNT=COUNT+1
-            sleep ${SLEEP_DURATION}
-        fi
-    done
-}
-
-
->/dev/stderr echo "⚙️  Ec2 Proxy Command \n"
->/dev/stderr echo "🧪 Check if instance ${ec2_instance_id} is running"
-STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION}`
-
-# If the instance is online, start the session
-if [ $STATUS == 'Online' ]; then
-  >/dev/stderr echo "   − State: 🟢 ${STATUS}"
-  connect
-else
-  >/dev/stderr echo "   − State: 🔴 Offline"
-  start_instance
-  connect
-fi
+connect

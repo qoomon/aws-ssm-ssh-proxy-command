@@ -1,0 +1,23 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowStartInstance",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:StartInstances"
+            ],
+            "Resource": [
+                "arn:aws:ec2:*:*:instance/*"
+            ]
+        },
+        {
+            "Sid": "AllowCheckIfInstanceIsRunning",
+            "Effect": "Allow",
+            "Action": [
+                "ssm:DescribeInstanceInformation"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
