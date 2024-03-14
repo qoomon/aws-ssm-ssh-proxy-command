@@ -75,4 +75,4 @@ then
   fi
 fi
 
- ~/.ssh/aws-ssm-ec2-proxy-command.sh "{$ec2_instance_id}" "${ssh_user}" "${ssh_port}" "${ssh_public_key_path}"
+ ~/.ssh/aws-ssm-ec2-proxy-command.sh "${ec2_instance_id}" "${ssh_user}" "${ssh_port}" "${ssh_public_key_path}"
