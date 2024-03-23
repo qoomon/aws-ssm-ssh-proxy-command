@@ -50,7 +50,7 @@ fi
 
 >/dev/stderr echo "EC2 Proxy Command..."
 
-STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION}`
+STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus'`
 if [ $STATUS != 'Online' ]
 then
   aws ec2 start-instances --instance-ids "${ec2_instance_id}" --profile "${AWS_PROFILE}" --region "${AWS_REGION}"
@@ -60,7 +60,7 @@ then
   do
       >/dev/stderr echo -n "."
       sleep ${START_INSTANCE_CHECK_INTERVAL}
-      STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus' --profile ${AWS_PROFILE} --region ${AWS_REGION}`
+      STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus'`
       if [ ${STATUS} == 'Online' ]
       then
           break
