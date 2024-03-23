@@ -48,8 +48,6 @@ then
   ec2_instance_id="${ec2_instance_id%%${REGION_SEPARATOR}*}"
 fi
 
->/dev/stderr echo "EC2 Proxy Command..."
-
 STATUS=`aws ssm describe-instance-information --filters Key=InstanceIds,Values=${ec2_instance_id} --output text --query 'InstanceInformationList[0].PingStatus'`
 if [ $STATUS != 'Online' ]
 then
@@ -75,4 +73,4 @@ then
   fi
 fi
 
- ~/.ssh/aws-ssm-ec2-proxy-command.sh "${ec2_instance_id}" "${ssh_user}" "${ssh_port}" "${ssh_public_key_path}"
+ exec ~/.ssh/aws-ssm-ec2-proxy-command.sh "${ec2_instance_id}" "${ssh_user}" "${ssh_port}" "${ssh_public_key_path}"
