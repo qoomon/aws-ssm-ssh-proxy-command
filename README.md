@@ -1,70 +1,93 @@
-# aws-ssm-ec2-proxy-command [![Sparkline](https://stars.medv.io/qoomon/aws-ssm-ec2-proxy-command.svg)](https://stars.medv.io/qoomon/aws-ssm-ec2-proxy-command)
+# aws-ssm-ssh-proxy-command [![Sparkline](https://stars.medv.io/qoomon/aws-ssm-ssh-proxy-command.svg)](https://stars.medv.io/qoomon/aws-ssm-ssh-proxy-command)
 
-Open an SSH connection to your ec2 instances via AWS SSM without the need to open any ssh port in you security groups.
+Open an SSH connection to your AWS SSM connected instances without the need to open any ssh port in you security groups.
 
-> [!Important]
-> Prefer [ec2-instance-connect implementation](#recommended-usage-of-ec2-instance-connectsendsshpublickey) if possible
+> [!Tip]
+> If you only need to connect to EC2 instances you could use the `ec2-instance-connect` variant of this proxy command.
+> This variant allows you to manage wich IAM identity can connect to which OS user on the target instance.
+> See [EC2 Only Variant](#ec2-only-variant)
 
-> [!Note]
-> Windows users please refere to [README.windows.md](README.windows.md)
+## Prerequisits
+- Local Setup
+  - Install AWS CLI
+    - [AWS Docs](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html#getting-started-install-instructions)
+    - **MacOS** `brew install awscli`  
+  - Install AWS CLI Session Manager Plugin
+    - [AWS Docs](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
+    - **MacOS** `brew install session-manager-plugin` 
+  - Install the SSM SSH Proxy Command Script
+    - **Linux & MacOS**
+      - Copy [aws-ssm-ssh-proxy-command.sh](aws-ssm-ssh-proxy-command.sh) into `~/.ssh/aws-ssm-ssh-proxy-command.sh`
+      - Ensure it is executable (`chmod +x ~/.ssh/aws-ssm-ssh-proxy-command.sh`)
+    - **Windows**
+      - Copy [aws-ssm-ssh-proxy-command.ps1](aws-ssm-ssh-proxy-command.ps1) into `~/.ssh/aws-ssm-ssh-proxy-command.ps1`
+      - Ensure you are allowed to execute powershell scripts (see [Set-ExecutionPolicy](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy) command)
+  - `optional` Setup SSH Config
+    - Add ssh config entry AWS instances to your `~/.ssh/config`. 
+      - **Linux & MacOS**
+        ```ssh-config
+        host i-* mi-*
+          IdentityFile ~/.ssh/id_ed25519
+          ProxyCommand ~/.ssh/aws-ssm-ssh-proxy-command.sh %h %r %p ~/.ssh/id_ed25519.pub
+          StrictHostKeyChecking no
+        ```
+      - **Windows**
+        ```ssh-config
+        host i-* mi-*
+          IdentityFile ~/.ssh/id_ed25519
+          ProxyCommand powershell.exe ~/.ssh/aws-ssm-ssh-proxy-command.ps1 %h %r %p ~/.ssh/id_ed25519.pub
+          StrictHostKeyChecking no
+        ```
+    - Adjust `IdentityFile` and corresponding publickey (last argument of `ProxyCommand`) if needed.
+    
+- AWS IAM Setup    
+  - Ensure IAM Permissions for Your IAM Identity
+    - [IAM Policy Template](aws-ssm-ssh-iam-policy.json)
+      - `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
+        - [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
+      - `ssm:SendCommand` for DocumentName: `AWS-RunShellScript` and Target Instance
+        - [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
 
-#### Prerequisits
-* Local Setup
-  * [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-    * MacOS `brew install awscli`  
-  * [Install AWS CLI Session Manager Plugin](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-working-with-install-plugin.html)
-    * MacOS `brew install session-manager-plugin`   
-* Ensure Your IAM Permissions
-  * [IAM Policy Example](aws-ssm-ec2-iam-policy.json)
-  * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
-    * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
-  * `ssm:SendCommand` for DocumentName: `AWS-RunShellScript` and Target Instance
-    * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
-* Target Instance Setup
-  * [Ensure SSM Permissions](https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html) fo Target Instance Profile
-  * Ensure SSM Agent is installed (preinstalled on all AWS Linux AMIs already)
-    * [Install SSM Agent on Linux Instances](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html)
-      * `yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm & service amazon-ssm-agent restart`
-    * [SSM Agent on Windows Instances](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-win.html)
+- Target Instance Setup
+    - Ensure IAM Permissions for SSM Agent Credentials
+      - [AWS Docs](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html)
+      - For EC2 Inatances use [Instance Profiles](https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html)
+    - Install SSM Agent on Linux Instances
+      - Already preinstalled on all AWS Linux AMIs
+      - [AWS Docs - Linux](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html)
+      - [AWS Docs - Windows](https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-ssm-agent-install-windows.html)
+
+## Usage
+- Ensure AWS CLI environemnt variables are set properly 
+  - **Linux & MacOS** `export AWS_PROFILE=...` or `AWS_PROFILE=... ssh...`
+  - **Windows** `$env:AWS_PROFILE = ...` or `$env:AWS_PROFILE = ...; ssh.exe...`
+- Open SSH Connection to AWS SSM connected instance
+  - **Linux & MacOS** `ssh <INSTACEC_USER>@<INSTANCE_ID>` e.g. `ssh ec2-user@i-1234567890`
+  - **Windows** `ssh.exe <INSTACEC_USER>@<INSTANCE_ID>` e.g. `ssh.exe ec2-user@i-1234567890`
+    - ⚠️ Unfortunately on Windows is not possible to show output while running ProxyCommand, script output is interpreted as SSH banner which is available with SSH verbose options.
+- [EC2 Intances Only] If default region does not match instance region you need to provide it as part of hostname
+  - `<INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>`
+  - e.g. `ec2-user@i-1234567890--eu-central-1`
   
-#### Install SSH Proxy Command
-  * Move proxy command script [aws-ssm-ec2-proxy-command.sh](aws-ssm-ec2-proxy-command.sh) to `~/.ssh/aws-ssm-ec2-proxy-command.sh`
-  * Ensure it is executable (`chmod +x ~/.ssh/aws-ssm-ec2-proxy-command.sh`)
+#### Usage without SSH Config
+If you have not setup an SSH Config you can use the following ssh command options to use this proxy command.
+- **Linux & MacOS** `ssh -i "~/.ssh/id_ed25519" -o ProxyCommand="~/.ssh/aws-ssm-ssh-proxy-command.sh %h %r %p ~/.ssh/id_ed25519.pub" ...`
+- **Windows** `ssh.exe -i "~/.ssh/id_ed25519" -o ProxyCommand="powershell.exe ~/.ssh/aws-ssm-ssh-proxy-command.ps1 %h %r %p ~/.ssh/id_ed25519.pub" ...`
 
-###### Setup SSH Config [optional]
-* Add ssh config entry for aws ec2 instances to your `~/.ssh/config`. Adjust key file path if needed.
-  ```ssh-config
-  host i-* mi-*
-    IdentityFile ~/.ssh/id_rsa
-    ProxyCommand ~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub
-    StrictHostKeyChecking no
-  ```
+## EC2 Only Variant
+If you only want to connect to EC2 instances you can make use of EC2 Instance Connect `SendSSHPublicKey` command as a drop in replacement for the SSM `SendCommand` to temporary add your public key to the target instance.
 
-#### Open SSH Connection
-* Ensure AWS CLI environemnt variables are set properly e.g. 
-  * `export AWS_PROFILE=default` or `AWS_PROFILE=default ssh ... <INSTACEC_USER>@<INSTANCE_ID>`
-* If default region does not match instance region you need to provide it
-  * e.g. `<INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>`
-###### SSH Command with SSH Config Setup
-`ssh <INSTACEC_USER>@<INSTANCE_ID>`
-* e.g. `ssh ec2-user@i-1234567890`
-###### SSH Command with ProxyCommand CLI Option
-```sh
-ssh <INSTACEC_USER>@<INSTANCE_ID> \
-  -i "~/.ssh/id_rsa" \
-  -o ProxyCommand="~/.ssh/aws-ssm-ec2-proxy-command.sh %h %r %p ~/.ssh/id_rsa.pub"
-```
+The advantage from this variant is that you don't need to grant `ssm:SendCommand` to users and there by the permission to execute everything as `ssm-user` or `root`.
+Instead you grant `ec2-instance-connect:SendSSHPublicKey` permission and optionaly restrict it to a specific OS user e.g. `ec2-user`.
 
-## Recommended Usage of `ec2-instance-connect:SendSSHPublicKey`
-The advantage from a security perspective is that you don't need to grant `ssm:SendCommand` to users and there by the permission to execute everything as root.
-Instead you only grant `ec2-instance-connect:SendSSHPublicKey` permission to a specific instance user e.g. `ec2-user`.
-* Ensure [Prerequisits](#prerequisits)
-* Follow [Install Guide](#install-ssh-proxy-command)
-  * Use this [aws-ssm-ec2-proxy-command.sh](ec2-instance-connect/aws-ssm-ec2-proxy-command.sh) proxy command script instead
-  * Use this [IAM Policy Example](ec2-instance-connect/aws-ssm-ec2-iam-policy.json) instead
-    * `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
-      * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
-    * `ec2-instance-connect:SendSSHPublicKey`
-      * [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
-      * You may need to adjust `ec2:osuser` to match your needs. Default is `ec2-user`
+To do so just use **Proxy Command Script** and **IAM Policy Template** from the [ec2-instance-connect folder](ec2-instance-connect) instead.
+- Proxy Command Script
+  - **Linux & MacOS** [aws-ssm-ssh-proxy-command.sh](ec2-instance-connect/aws-ssm-ssh-proxy-command.sh)
+  - **Windows** [aws-ssm-ssh-proxy-command.ps1](ec2-instance-connect/aws-ssm-ssh-proxy-command.ps1)
+- [IAM Policy Template](ec2-instance-connect/aws-ssm-ssh-iam-policy.json)
+  - `ssm:StartSession` for DocumentName: `AWS-StartSSHSession` and Target Instance
+    - [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-restrict-access-examples.html)
+  - `ec2-instance-connect:SendSSHPublicKey`
+    - [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
+    - You may need to adjust `ec2:osuser` to match your needs. Default is `ec2-user`
 
