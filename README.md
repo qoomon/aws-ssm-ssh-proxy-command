@@ -1,4 +1,4 @@
-# aws-ssm-ssh-proxy-command [![Sparkline](https://stars.medv.io/qoomon/aws-ssm-ssh-proxy-command.svg)](https://stars.medv.io/qoomon/aws-ssm-ssh-proxy-command)
+# aws-ssm-ssh-proxy-command [![Sparkline](https://stars.medv.io/qoomon/aws-ssm-ssh-proxy-command.svg)](https://stars.medv.io/qoomon/aws-ssm-ssh-proxy-command.svg)
 
 Open an SSH connection to your AWS SSM connected instances without the need to open any ssh port in you security groups.
 
