@@ -3,7 +3,7 @@
 Open an SSH connection to your AWS SSM connected instances without the need to open any ssh port in you security groups.
 
 > [!Tip]
-> If you only need to connect to EC2 instances you could use the `ec2-instance-connect` variant of this proxy command.
+> If you only need to connect to AWS EC2 instances you could use the `ec2-instance-connect` variant of this proxy command.
 > This variant allows you to manage wich IAM identity can connect to which OS user on the target instance.
 > See [EC2 Only Variant](#ec2-only-variant)
 
