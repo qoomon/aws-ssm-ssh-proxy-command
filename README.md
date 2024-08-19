@@ -22,7 +22,7 @@ Open an SSH connection to your AWS SSM connected instances without the need to o
     - **Windows**
       - Copy [aws-ssm-ssh-proxy-command.ps1](aws-ssm-ssh-proxy-command.ps1) into `~/.ssh/aws-ssm-ssh-proxy-command.ps1`
       - Ensure you are allowed to execute powershell scripts (see [Set-ExecutionPolicy](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy) command)
-  - `optional` Setup SSH Config
+  - `recommended` Setup SSH Config
     - Add ssh config entry AWS instances to your `~/.ssh/config`. 
       - **Linux & MacOS**
         ```ssh-config
