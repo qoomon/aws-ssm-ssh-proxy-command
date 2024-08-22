@@ -38,7 +38,7 @@ aws ssm send-command `
     
     sleep 10
     
-    (grep -v -F \\\"\${authorized_key}\\\" authorized_keys || true) > authorized_keys~
+    (grep -v -F \\\"`$authorized_key\\\" authorized_keys || true) > authorized_keys~
     mv authorized_keys~ authorized_keys
   \"
   "@
