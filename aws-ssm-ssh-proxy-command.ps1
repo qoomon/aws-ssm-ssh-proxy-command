@@ -20,12 +20,12 @@ if ($splitted_instance.Length -gt 1) {
   $env:AWS_DEFAULT_REGION = $splitted_instance[1]
 }
 
-Write-Output "Add public key $ssh_public_key_path for $ssh_user at instance $instance_id for 60 seconds"
+Write-Output "Add public key $ssh_public_key_path for $ssh_user at instance $instance_id for 10 seconds"
 $ssh_public_key = (Get-Content $ssh_public_key_path | Select-Object -first 1)
 aws ssm send-command `
   --instance-ids "$instance_id" `
   --document-name 'AWS-RunShellScript' `
-  --comment "Add an SSH public key to authorized_keys for 60 seconds" `
+  --comment "Add an SSH public key to authorized_keys for 10 seconds" `
   --parameters commands=@"
   \"
     set -eu
@@ -36,10 +36,10 @@ aws ssm send-command `
     
     echo \\\"`$authorized_key\\\" >> authorized_keys
     
-    sleep 60
+    sleep 10
     
-    grep -v -F \\\"`$authorized_key\\\" authorized_keys > ~authorized_keys
-    mv ~authorized_keys authorized_keys
+    (grep -v -F \\\"\${authorized_key}\\\" authorized_keys || true) > authorized_keys~
+    mv authorized_keys~ authorized_keys
   \"
   "@
 
