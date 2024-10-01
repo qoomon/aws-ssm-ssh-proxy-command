@@ -13,10 +13,10 @@ ssh_port="$3"
 ssh_public_key_path="$4"
 
 REGION_SEPARATOR='--'
-if [[ "${instance_id}" == *"${REGION_SEPARATOR}"* ]]
+if echo "$instance_id" | grep -q -e "${REGION_SEPARATOR}" 
 then
-  export AWS_DEFAULT_REGION="${instance_id##*${REGION_SEPARATOR}}"
-  instance_id="${instance_id%%${REGION_SEPARATOR}*}"
+  export AWS_DEFAULT_REGION="${instance_id##*"${REGION_SEPARATOR}"}"
+  instance_id="${instance_id%%"$REGION_SEPARATOR"*}"
 fi
 
 >/dev/stderr echo "Add public key ${ssh_public_key_path} for ${ssh_user} at instance ${instance_id} for 10 seconds"
