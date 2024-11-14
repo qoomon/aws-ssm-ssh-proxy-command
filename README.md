@@ -49,9 +49,9 @@ Open an SSH connection to your AWS SSM connected instances without the need to o
         - [AWS Documentation](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-rc-setting-up.html)
 
 - Target Instance Setup
-    - Ensure IAM Permissions for SSM Agent Credentials
+    - Ensure IAM Permissions for SSM Agent
       - [AWS Docs](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-setting-up.html)
-      - For EC2 Inatances use [Instance Profiles](https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-profile.html)
+      - For EC2 Instances use [Instance Profiles](https://docs.aws.amazon.com/systems-manager/latest/userguide/setup-instance-permissions.html)
     - Install SSM Agent on Linux Instances
       - Already preinstalled on all AWS Linux AMIs
       - [AWS Docs - Linux](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html)
