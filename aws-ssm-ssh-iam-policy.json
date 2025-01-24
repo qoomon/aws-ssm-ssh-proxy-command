@@ -9,8 +9,8 @@
             ],
             "Resource": [
                 "arn:aws:ec2:*:*:instance/*",
-                "arn:aws:ssm:region:account-id:document/AWS-RunShellScript",
-                "arn:aws:ssm:region:account-id:document/AWS-StartSSHSession" 
+                "arn:aws:ssm:*:account-id:document/AWS-RunShellScript",
+                "arn:aws:ssm:*:account-id:document/AWS-StartSSHSession" 
             ],
             "Condition": {
                 "BoolIfExists": {
