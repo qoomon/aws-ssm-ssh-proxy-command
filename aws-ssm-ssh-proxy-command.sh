@@ -19,7 +19,7 @@ ssh_user="$2"
 ssh_port="$3"
 ssh_public_key_path="$4"
 
-ec2InstanceIdPattern='^i-[0-9a-f]{8,17}$'
+ec2InstanceIdPattern='^m?i-[0-9a-f]{8,17}$'
 if [[ $instance_name =~ $ec2InstanceIdPattern ]]; then
   instance_id=$instance_name
 else
