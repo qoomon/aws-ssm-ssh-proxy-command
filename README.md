@@ -30,10 +30,18 @@ Open an SSH connection to your AWS SSM connected instances without the need to o
           IdentityFile ~/.ssh/id_ed25519
           ProxyCommand ~/.ssh/aws-ssm-ssh-proxy-command.sh %h %r %p ~/.ssh/id_ed25519.pub
           StrictHostKeyChecking no
+        host <YOUR_INSTANCE_NAME_PREFIX_OR_SUFFIX_OR_BEST_MATCH>
+          IdentityFile ~/.ssh/id_ed25519
+          ProxyCommand ~/.ssh/aws-ssm-ssh-proxy-command.sh %h %r %p ~/.ssh/id_ed25519.pub
+          StrictHostKeyChecking no
         ```
       - **Windows**
         ```ssh-config
         host i-* mi-*
+          IdentityFile ~/.ssh/id_ed25519
+          ProxyCommand powershell.exe ~/.ssh/aws-ssm-ssh-proxy-command.ps1 %h %r %p ~/.ssh/id_ed25519.pub
+          StrictHostKeyChecking no
+        host <YOUR_INSTANCE_NAME_PREFIX_OR_SUFFIX_OR_BEST_MATCH>
           IdentityFile ~/.ssh/id_ed25519
           ProxyCommand powershell.exe ~/.ssh/aws-ssm-ssh-proxy-command.ps1 %h %r %p ~/.ssh/id_ed25519.pub
           StrictHostKeyChecking no
@@ -62,8 +70,11 @@ Open an SSH connection to your AWS SSM connected instances without the need to o
   - **Linux & MacOS** `export AWS_PROFILE=...` or `AWS_PROFILE=... ssh...`
   - **Windows** `$env:AWS_PROFILE = ...` or `$env:AWS_PROFILE = ...; ssh.exe...`
 - Open SSH Connection to AWS SSM connected instance
-  - **Linux & MacOS** `ssh <INSTACEC_USER>@<INSTANCE_ID>` e.g. `ssh ec2-user@i-1234567890`
-  - **Windows** `ssh.exe <INSTACEC_USER>@<INSTANCE_ID>` e.g. `ssh.exe ec2-user@i-1234567890`
+  - **Linux & MacOS with InstanceId** `ssh <INSTACEC_USER>@<INSTANCE_ID>` e.g. `ssh ec2-user@i-1234567890`
+  - **Linux & MacOS with InstanceName** `ssh <INSTACEC_USER>@<INSTANCE_NAME>` e.g. `ssh ec2-user@aws-ec2-custom-name-instance`
+  - **Windows with InstanceId** `ssh.exe <INSTACEC_USER>@<INSTANCE_ID>` e.g. `ssh.exe ec2-user@i-1234567890`
+    - ⚠️ Unfortunately on Windows is not possible to show output while running ProxyCommand, script output is interpreted as SSH banner which is available with SSH verbose options.
+  - **Windows with InstanceName** `ssh.exe <INSTACEC_USER>@<INSTANCE_NAME>` e.g. `ssh.exe ec2-user@aws-ec2-custom-name-instance`
     - ⚠️ Unfortunately on Windows is not possible to show output while running ProxyCommand, script output is interpreted as SSH banner which is available with SSH verbose options.
 - [EC2 Intances Only] If default region does not match instance region you need to provide it as part of hostname
   - `<INSTACEC_USER>@<INSTANCE_ID>--<INSTANCE_REGION>`

@@ -7,10 +7,31 @@ set -eu
 #
 ################################################################################
 
-instance_id="$1"
+getInstanceId() {
+  local instance_name="$1"
+  local instance_id=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${instance_name}" --query "Reservations[].Instances[?State.Name == 'running'].InstanceId" --output text)
+
+  echo "${instance_id}"
+}
+
+instance_name="$1"
 ssh_user="$2"
 ssh_port="$3"
 ssh_public_key_path="$4"
+
+ec2InstanceIdPattern='^m?i-[0-9a-f]{8,17}$'
+if [[ $instance_name =~ $ec2InstanceIdPattern ]]; then
+  instance_id=$instance_name
+else
+  instance_id=$( getInstanceId "$instance_name" )
+
+  if [[ -z $instance_id ]]; then
+    echo "Found no running instances with name \"${instance_name}\"."
+    exit 1
+  else
+    echo "Instance ID for \"${instance_name}\": \"${instance_id}\""
+  fi
+fi
 
 REGION_SEPARATOR='--'
 if echo "$instance_id" | grep -q -e "${REGION_SEPARATOR}" 
