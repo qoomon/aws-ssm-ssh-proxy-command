@@ -29,7 +29,7 @@ $ssh_user = $args[1]
 $ssh_port = $args[2]
 $ssh_public_key_path = $args[3]
 
-$ec2InstanceIdPattern = '^i-[0-9a-f]{8,17}$'
+$ec2InstanceIdPattern = '^m?i-[0-9a-f]{8,17}$'
 if ($instance_name -match $ec2InstanceIdPattern) {
     $instance_id = $instance_name
 } else {
