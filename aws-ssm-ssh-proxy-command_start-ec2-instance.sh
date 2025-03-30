@@ -6,7 +6,7 @@ instance_id="$1"
 REGION_SEPARATOR='--'
 if echo "$instance_id" | grep -q -e "${REGION_SEPARATOR}" 
 then
-  export AWS_DEFAULT_REGION="${instance_id##*"$REGION_SEPARATOR"}"
+  export AWS_REGION="${instance_id##*"$REGION_SEPARATOR"}"
   instance_id="${instance_id%%"$REGION_SEPARATOR"*}"
 fi
 
