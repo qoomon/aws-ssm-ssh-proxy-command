@@ -17,7 +17,7 @@ $REGION_SEPARATOR = "--"
 $splitted_instance = $instance_id -split $REGION_SEPARATOR
 if ($splitted_instance.Length -gt 1) {
   $instance_id = $splitted_instance[0]
-  $env:AWS_DEFAULT_REGION = $splitted_instance[1]
+  $env:AWS_REGION = $splitted_instance[1]
 }
 
 Write-Output "Add public key $ssh_public_key_path for $ssh_user at instance $instance_id for 60 seconds"
