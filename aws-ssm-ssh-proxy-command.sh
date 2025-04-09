@@ -7,6 +7,14 @@ set -eu
 #
 ################################################################################
 
+REGION_SEPARATOR='--'
+INSTANCE_ID_PATTERN='^m?i-[0-9a-f]{8,17}$'
+
+instance_name="$1"
+ssh_user="$2"
+ssh_port="$3"
+ssh_public_key_path="$4"
+
 getInstanceId() {
   local instance_name="$1"
   local instance_id=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${instance_name}" --query "Reservations[].Instances[?State.Name == 'running'].InstanceId" --output text)
@@ -14,13 +22,12 @@ getInstanceId() {
   echo "${instance_id}"
 }
 
-instance_name="$1"
-ssh_user="$2"
-ssh_port="$3"
-ssh_public_key_path="$4"
+if [[ $instance_name =~ $REGION_SEPARATOR ]]; then
+  export AWS_REGION="${instance_name##*"${REGION_SEPARATOR}"}"
+  instance_name="${instance_name%%"$REGION_SEPARATOR"*}"
+fi
 
-ec2InstanceIdPattern='^m?i-[0-9a-f]{8,17}$'
-if [[ $instance_name =~ $ec2InstanceIdPattern ]]; then
+if [[ $instance_name =~ $INSTANCE_ID_PATTERN ]]; then
   instance_id=$instance_name
 else
   instance_id=$( getInstanceId "$instance_name" )
@@ -31,13 +38,6 @@ else
   else
     echo "Instance ID for \"${instance_name}\": \"${instance_id}\""
   fi
-fi
-
-REGION_SEPARATOR='--'
-if echo "$instance_id" | grep -q -e "${REGION_SEPARATOR}" 
-then
-  export AWS_REGION="${instance_id##*"${REGION_SEPARATOR}"}"
-  instance_id="${instance_id%%"$REGION_SEPARATOR"*}"
 fi
 
 >/dev/stderr echo "Add public key ${ssh_public_key_path} for ${ssh_user} at instance ${instance_id} for 10 seconds"
