@@ -14,6 +14,14 @@ $ErrorActionPreference = "Stop"
 # Unblock-File -Path $HOME\.ssh\aws-ssm-ssh-proxy-command.ps1
 #
 
+$REGION_SEPARATOR = "--"
+$INSTANCE_ID_PATTERN = '^m?i-[0-9a-f]{8,17}$'
+
+$instance_name = $args[0]
+$ssh_user = $args[1]
+$ssh_port = $args[2]
+$ssh_public_key_path = $args[3]
+
 function Get-InstanceId {
     param (
         [string]$instanceName
@@ -24,12 +32,12 @@ function Get-InstanceId {
 	return $instanceId
 }
 
-$instance_name = $args[0]
-$ssh_user = $args[1]
-$ssh_port = $args[2]
-$ssh_public_key_path = $args[3]
+$splitted_instance = $instance_name -split $REGION_SEPARATOR
+if ($splitted_instance.Length -gt 1) {
+  $instance_name = $splitted_instance[0]
+  $env:AWS_REGION = $splitted_instance[1]
+}
 
-$ec2InstanceIdPattern = '^m?i-[0-9a-f]{8,17}$'
 if ($instance_name -match $ec2InstanceIdPattern) {
     $instance_id = $instance_name
 } else {
@@ -41,13 +49,6 @@ if ($instance_name -match $ec2InstanceIdPattern) {
 	} else {
 		Write-Output 'Instance ID for "' + $instance_name + '": "' + $instance_id + '"'
 	}
-}
-
-$REGION_SEPARATOR = "--"
-$splitted_instance = $instance_id -split $REGION_SEPARATOR
-if ($splitted_instance.Length -gt 1) {
-  $instance_id = $splitted_instance[0]
-  $env:AWS_REGION = $splitted_instance[1]
 }
 
 Write-Output "Add public key $ssh_public_key_path for $ssh_user at instance $instance_id for 10 seconds"
