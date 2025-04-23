@@ -38,7 +38,7 @@ if ($splitted_instance.Length -gt 1) {
   $env:AWS_REGION = $splitted_instance[1]
 }
 
-if ($instance_name -match $ec2InstanceIdPattern) {
+if ($instance_name -match $INSTANCE_ID_PATTERN) {
     $instance_id = $instance_name
 } else {
     $instance_id = Get-InstanceId -instanceName $instance_name
